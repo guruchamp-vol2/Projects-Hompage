@@ -1,6 +1,6 @@
-# Dhruv's Projects Homepage
+# Dhruv's Projects Homepage - Web Service
 
-A beautiful, interactive homepage for showcasing your projects, inspired by the creative design of [neal.fun](https://neal.fun).
+A beautiful, interactive web service for showcasing your projects, built with Node.js/Express and inspired by the creative design of [neal.fun](https://neal.fun).
 
 ## Features
 
@@ -10,6 +10,45 @@ A beautiful, interactive homepage for showcasing your projects, inspired by the 
 - ♿ **Accessible**: Keyboard navigation and screen reader support
 - 🎉 **Fun Interactions**: Confetti effects and parallax animations
 - 🔗 **Easy Navigation**: One-click access to your projects
+- 🌐 **Web Service**: Full Express.js backend with API endpoints
+- 📊 **Analytics Ready**: Built-in analytics endpoint for tracking
+- 🔒 **Secure**: Helmet.js security headers and CORS protection
+
+## API Endpoints
+
+### GET `/`
+- Serves the beautiful homepage
+- Returns the main HTML page with all styling and interactions
+
+### GET `/api/projects`
+- Returns JSON data of all projects
+- Useful for dynamic project loading and future integrations
+- Example response:
+```json
+{
+  "success": true,
+  "data": [
+    {
+      "id": 1,
+      "title": "AI Assistant",
+      "description": "An intelligent AI assistant with memory, code execution, file upload, and voice input capabilities.",
+      "url": "https://myai-14dw.onrender.com",
+      "icon": "🤖",
+      "features": ["🧠 Memory", "💻 Code Execution", "📄 File Upload", "🗣️ Voice Input"],
+      "status": "live"
+    }
+  ],
+  "timestamp": "2024-01-01T00:00:00.000Z"
+}
+```
+
+### GET `/api/health`
+- Health check endpoint for monitoring
+- Returns service status, uptime, and environment info
+
+### POST `/api/analytics`
+- Logs user interactions (for future analytics)
+- Accepts JSON with event data
 
 ## Current Projects
 
@@ -18,18 +57,44 @@ A beautiful, interactive homepage for showcasing your projects, inspired by the 
 
 ## How to Add New Projects
 
-To add a new project, edit the `index.html` file and add a new project card in the `projects-grid` section:
+### Method 1: Edit the API (Recommended)
+Update the projects array in `server.js`:
+
+```javascript
+const projects = [
+    {
+        id: 1,
+        title: 'AI Assistant',
+        description: 'An intelligent AI assistant...',
+        url: 'https://myai-14dw.onrender.com',
+        icon: '🤖',
+        features: ['🧠 Memory', '💻 Code Execution'],
+        status: 'live'
+    },
+    {
+        id: 2,
+        title: 'Your New Project',
+        description: 'Description of your project',
+        url: 'https://your-project-url.com',
+        icon: '🎯',
+        features: ['Feature 1', 'Feature 2'],
+        status: 'live'
+    }
+];
+```
+
+### Method 2: Edit the HTML
+Add a new project card in the `projects-grid` section of `index.html`:
 
 ```html
 <div class="project-card" data-url="YOUR_PROJECT_URL">
     <div class="project-content">
         <div class="project-icon">🎯</div>
         <h3 class="project-title">Your Project Name</h3>
-        <p class="project-description">Brief description of your project and what it does.</p>
+        <p class="project-description">Brief description of your project.</p>
         <div class="project-features">
             <span class="feature">Feature 1</span>
             <span class="feature">Feature 2</span>
-            <span class="feature">Feature 3</span>
         </div>
     </div>
     <div class="project-overlay">
@@ -38,28 +103,52 @@ To add a new project, edit the `index.html` file and add a new project card in t
 </div>
 ```
 
-### Customization Options
-
-1. **Change the title and subtitle** in the header section
-2. **Modify colors** by editing the CSS variables in `styles.css`
-3. **Add more animations** by extending the JavaScript in `script.js`
-4. **Change the background** by modifying the gradient in the body styles
-
 ## File Structure
 
 ```
-├── index.html          # Main HTML file
-├── styles.css          # CSS styles and animations
-├── script.js           # JavaScript interactions
-└── README.md           # This file
+├── server.js              # Express server with API endpoints
+├── package.json           # Node.js dependencies and scripts
+├── render.yaml            # Render deployment configuration
+├── index.html             # Main homepage
+├── public/                # Static files directory
+│   ├── styles.css         # CSS styles and animations
+│   └── script.js          # Frontend JavaScript
+├── README.md              # This documentation
+├── DEPLOYMENT.md          # Deployment guide
+└── .gitignore             # Git ignore rules
 ```
 
 ## Getting Started
 
-1. Open `index.html` in your web browser
-2. The page will load with smooth animations
-3. Click on any project card to visit the project
-4. Use keyboard navigation (Tab + Enter) for accessibility
+### Local Development
+
+1. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+2. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
+
+3. **Access your site**:
+   - Homepage: http://localhost:3000/
+   - API Projects: http://localhost:3000/api/projects
+   - Health Check: http://localhost:3000/api/health
+
+### Production Deployment
+
+See [DEPLOYMENT.md](./DEPLOYMENT.md) for detailed deployment instructions to Render.
+
+## Technology Stack
+
+- **Backend**: Node.js with Express.js
+- **Frontend**: Vanilla HTML, CSS, JavaScript
+- **Styling**: Custom CSS with modern animations
+- **Security**: Helmet.js, CORS protection
+- **Performance**: Compression middleware
+- **Deployment**: Render (Web Service)
 
 ## Browser Support
 
@@ -72,7 +161,7 @@ To add a new project, edit the `index.html` file and add a new project card in t
 
 ### Changing Colors
 
-Edit the gradient in `styles.css`:
+Edit the gradient in `public/styles.css`:
 
 ```css
 body {
@@ -80,13 +169,22 @@ body {
 }
 ```
 
-### Adding More Animations
+### Adding More API Endpoints
 
-Extend the JavaScript in `script.js` to add custom animations or interactions.
+Extend the Express server in `server.js`:
+
+```javascript
+app.get('/api/your-endpoint', (req, res) => {
+    res.json({
+        success: true,
+        data: yourData
+    });
+});
+```
 
 ### Modifying Layout
 
-The grid layout can be adjusted in `styles.css`:
+The grid layout can be adjusted in `public/styles.css`:
 
 ```css
 .projects-grid {
@@ -97,16 +195,17 @@ The grid layout can be adjusted in `styles.css`:
 
 ## Deployment
 
-You can deploy this homepage to any static hosting service:
+This project is configured for deployment on Render as a Web Service:
 
-- **GitHub Pages**: Push to a GitHub repository and enable Pages
-- **Netlify**: Drag and drop the folder to Netlify
-- **Vercel**: Connect your GitHub repository
-- **Firebase Hosting**: Use Firebase CLI to deploy
+- **Automatic deployments** from GitHub
+- **Health checks** for monitoring
+- **Environment variables** support
+- **Custom domains** support
+- **SSL certificates** included
 
 ## Contributing
 
-Feel free to customize this homepage for your own projects! The code is well-commented and modular for easy modification.
+Feel free to customize this web service for your own projects! The code is well-commented and modular for easy modification.
 
 ## License
 
